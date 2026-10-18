@@ -1,0 +1,578 @@
+<!doctype html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<style>:root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}body{margin:0;font-size:14px}img{max-width:100%}[hidden]{display:none!important}</style>
+<title>תמונת מצב הסבות הרץ</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Hebrew:wght@400;500;600&family=Rubik:wght@500;600;700&display=swap">
+<style>
+/* Layout: one reading column; summary tiles, then the fine's path, then one panel per question (police vs city, pace, what is missing, failures, where, not ours) */
+:root {
+  --bg: #f2f4f5;
+  --surface: #fdfdfd;
+  --ink: #10181d;
+  --ink-2: #48545b;
+  --muted: #76828a;
+  --line: #e1e6e9;
+  --track: #eceff1;
+  --accent: #0d6a88;
+  --accent-soft: #e2f0f5;
+  --police: #2a78d6;
+  --city: #eb6834;
+  --ok: #0ca30c;
+  --ok-text: #006300;
+  --queue: #8f9aa3;
+  --renter: #2a78d6;
+  --wait: #eda100;
+  --bad: #d03b3b;
+  --bad-text: #b02a2a;
+  --on-fill: #ffffff;
+  --on-wait: #10181d;
+  --font-display: "Rubik", "Assistant", "Segoe UI", system-ui, sans-serif;
+  --font-body: "IBM Plex Sans Hebrew", "Assistant", "Segoe UI", system-ui, sans-serif;
+  --shadow: 0 1px 2px rgba(16, 24, 29, 0.05);
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #111416; --surface: #1a1d1f; --ink: #eef1f2; --ink-2: #b9c2c7; --muted: #8a949a;
+    --line: #2c3236; --track: #262b2e; --accent: #4fb3d4; --accent-soft: #17323c;
+    --police: #3987e5; --city: #d95926; --ok: #0ca30c; --ok-text: #3fc23f; --queue: #6b7780;
+    --renter: #3987e5; --wait: #c98500; --bad: #e0484a; --bad-text: #f07a7a; --on-fill: #ffffff; --on-wait: #10181d;
+    --shadow: none; color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #111416; --surface: #1a1d1f; --ink: #eef1f2; --ink-2: #b9c2c7; --muted: #8a949a;
+  --line: #2c3236; --track: #262b2e; --accent: #4fb3d4; --accent-soft: #17323c;
+  --police: #3987e5; --city: #d95926; --ok: #0ca30c; --ok-text: #3fc23f; --queue: #6b7780;
+  --renter: #3987e5; --wait: #c98500; --bad: #e0484a; --bad-text: #f07a7a; --on-fill: #ffffff; --on-wait: #10181d;
+  --shadow: none; color-scheme: dark;
+}
+
+* { box-sizing: border-box; }
+body {
+  background: var(--bg);
+  color: var(--ink);
+  font-family: var(--font-body);
+  font-size: 15px;
+  line-height: 1.55;
+}
+.page {
+  max-width: 1040px;
+  margin: 0 auto;
+  padding-block: 32px 56px;
+  padding-left: max(16px, env(safe-area-inset-left, 0px));
+  padding-right: max(16px, env(safe-area-inset-right, 0px));
+  display: grid;
+  gap: 20px;
+}
+h1, h2, h3 { font-family: var(--font-display); text-wrap: balance; margin: 0; }
+p { margin: 0; }
+
+/* header */
+.head { display: grid; gap: 6px; padding-bottom: 4px; }
+.eyebrow { font-size: 13px; font-weight: 500; color: var(--accent); letter-spacing: 0.02em; }
+.head h1 { font-size: clamp(26px, 4.4vw, 36px); font-weight: 700; line-height: 1.15; }
+.asof { color: var(--ink-2); font-size: 14px; }
+.asof b { font-weight: 600; color: var(--ink); }
+
+/* tiles */
+.tiles { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 12px; }
+.tile {
+  background: var(--surface); border: 1px solid var(--line); border-radius: 10px;
+  padding: 16px 18px; display: grid; gap: 4px; align-content: start; box-shadow: var(--shadow);
+}
+.tile .v { font-family: var(--font-display); font-weight: 600; font-size: 34px; line-height: 1.1; letter-spacing: -0.01em; }
+.tile .l { font-weight: 600; font-size: 15px; }
+.tile .s { color: var(--muted); font-size: 13px; }
+.tile.hero { background: var(--accent-soft); border-color: transparent; }
+.tile.hero .v { color: var(--accent); }
+
+/* panels */
+.panel {
+  background: var(--surface); border: 1px solid var(--line); border-radius: 12px;
+  padding: 22px 22px 20px; display: grid; gap: 16px; box-shadow: var(--shadow); min-width: 0;
+}
+.panel-head { display: grid; gap: 4px; }
+.panel h2 { font-size: 20px; font-weight: 600; }
+.panel .sub { color: var(--ink-2); font-size: 14px; max-width: 68ch; }
+.two { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 20px; }
+
+/* horizontal bar list */
+.bars { display: grid; gap: 10px; }
+.bar-row {
+  display: grid; grid-template-columns: minmax(0, 15.5rem) minmax(0, 1fr);
+  align-items: center; gap: 14px; outline: none; border-radius: 6px;
+}
+.bar-row:focus-visible { box-shadow: 0 0 0 2px var(--accent); }
+.bar-label { font-size: 14px; line-height: 1.35; min-width: 0; }
+.bar-label small { display: block; color: var(--muted); font-size: 12.5px; }
+.bar-track { min-height: 22px; display: flex; align-items: center; gap: 10px; min-width: 0; }
+.bar-fill { height: 18px; border-radius: 4px 0 0 4px; min-width: 3px; flex: none; }
+.bar-val { font-family: var(--font-display); font-weight: 600; font-size: 16px; font-variant-numeric: tabular-nums; text-align: start; white-space: nowrap; line-height: 1.2; }
+.bar-val small { display: block; font-family: var(--font-body); font-weight: 400; color: var(--muted); font-size: 12px; }
+
+/* funnel tweaks */
+.funnel .bar-fill { background: var(--accent); }
+.funnel .bar-row:nth-child(n+4) .bar-fill { background: var(--ok); }
+.leftover {
+  display: flex; flex-wrap: wrap; gap: 8px 18px; padding-top: 12px; border-top: 1px solid var(--line);
+  color: var(--ink-2); font-size: 14px;
+}
+.leftover b { color: var(--ink); font-family: var(--font-display); font-weight: 600; }
+
+/* stacked 100% bars */
+.stack-block { display: grid; gap: 8px; }
+.stack-title { display: flex; justify-content: space-between; align-items: baseline; gap: 12px; flex-wrap: wrap; }
+.stack-title h3 { font-size: 16px; font-weight: 600; }
+.stack-title span { color: var(--ink-2); font-size: 14px; }
+.stack-title span b { color: var(--ok-text); font-family: var(--font-display); font-weight: 600; }
+.stack { display: flex; gap: 2px; height: 34px; }
+.seg {
+  min-width: 3px; height: 100%; display: flex; align-items: center; justify-content: center;
+  font-size: 13px; font-weight: 600; color: var(--on-fill); outline: none; overflow: visible;
+}
+.seg:first-child { border-radius: 0 4px 4px 0; }
+.seg:last-child { border-radius: 4px 0 0 4px; }
+.seg:only-child { border-radius: 4px; }
+.seg:focus-visible { box-shadow: 0 0 0 2px var(--surface), 0 0 0 4px var(--ink); }
+.legend { display: flex; flex-wrap: wrap; gap: 6px 16px; font-size: 13px; color: var(--ink-2); }
+.key { display: inline-flex; align-items: center; gap: 6px; }
+.sw { width: 12px; height: 12px; border-radius: 3px; flex: none; }
+.ico { font-size: 12px; line-height: 1; color: var(--ink-2); }
+
+/* columns (daily pace) */
+.cols-wrap { display: grid; gap: 8px; }
+.cols-plot { display: grid; grid-template-columns: 2.6rem minmax(0, 1fr); gap: 6px; direction: ltr; }
+.yaxis { position: relative; height: 220px; font-size: 12px; color: var(--muted); font-variant-numeric: tabular-nums; }
+.yaxis span { position: absolute; right: 0; transform: translateY(50%); }
+.cols { position: relative; height: 220px; display: grid; grid-auto-flow: column; grid-auto-columns: minmax(0, 1fr); align-items: end; border-bottom: 1px solid var(--muted); }
+.grid-line { position: absolute; left: 0; right: 0; height: 1px; background: var(--line); }
+.col { position: relative; height: 100%; display: flex; flex-direction: column-reverse; align-items: center; gap: 2px; outline: none; cursor: default; }
+.col:focus-visible { background: var(--accent-soft); }
+.col .c-seg { width: min(22px, 70%); flex-shrink: 0; }
+.col .tot { flex-shrink: 0; }
+.col .c-seg.top { border-radius: 4px 4px 0 0; }
+.col .tot { font-size: 11.5px; color: var(--ink-2); font-variant-numeric: tabular-nums; font-weight: 500; }
+.xaxis { display: grid; grid-auto-flow: column; grid-auto-columns: minmax(0, 1fr); font-size: 11.5px; color: var(--muted); text-align: center; font-variant-numeric: tabular-nums; }
+.note { font-size: 13px; color: var(--ink-2); }
+.note b { color: var(--ink); font-weight: 600; }
+
+/* who-acts chip */
+.chip {
+  display: inline-block; font-size: 11.5px; font-weight: 600; padding: 1px 8px; border-radius: 999px;
+  margin-inline-start: 6px; vertical-align: 1px; white-space: nowrap;
+}
+.chip.hz { background: var(--track); color: var(--ink-2); }
+.chip.us { background: var(--accent-soft); color: var(--accent); }
+
+details { font-size: 14px; }
+summary { cursor: pointer; color: var(--accent); font-weight: 500; width: fit-content; }
+summary:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; border-radius: 4px; }
+.table-scroll { overflow-x: auto; margin-top: 10px; }
+table { border-collapse: collapse; font-size: 13.5px; font-variant-numeric: tabular-nums; min-width: 360px; }
+th, td { padding: 5px 12px; border-bottom: 1px solid var(--line); text-align: right; }
+th { color: var(--ink-2); font-weight: 600; }
+
+.defs { display: grid; gap: 8px; font-size: 13.5px; color: var(--ink-2); }
+.defs h2 { font-size: 16px; color: var(--ink); }
+.defs dl { margin: 0; display: grid; grid-template-columns: max-content minmax(0, 1fr); gap: 6px 14px; }
+.defs dt { font-weight: 600; color: var(--ink); }
+.defs dd { margin: 0; }
+
+#tip {
+  position: fixed; z-index: 20; pointer-events: none; background: var(--ink); color: var(--surface);
+  font-size: 13px; line-height: 1.45; padding: 7px 10px; border-radius: 6px; max-width: 260px;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.18);
+}
+#tip b { font-weight: 600; }
+
+@media (max-width: 860px) {
+  .tiles { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .two { grid-template-columns: minmax(0, 1fr); }
+}
+@media (max-width: 560px) {
+  .page { padding-block: 20px 40px; gap: 16px; }
+  .panel { padding: 18px 16px; }
+  .tile { padding: 14px; }
+  .tile .v { font-size: 28px; }
+  .bar-row { grid-template-columns: minmax(0, 1fr); gap: 4px; }
+  .xaxis span { visibility: hidden; }
+  .xaxis span:nth-child(3n+1) { visibility: visible; }
+  .col .tot { display: none; }
+  .defs dl { grid-template-columns: minmax(0, 1fr); gap: 2px; }
+  .defs dd { margin-bottom: 8px; }
+}
+@media (prefers-reduced-motion: no-preference) {
+  .bar-fill, .seg, .c-seg { transition: filter 120ms ease; }
+}
+.bar-row:hover .bar-fill, .seg:hover, .col:hover .c-seg { filter: brightness(1.08); }
+</style>
+</head>
+<body>
+
+<div class="page" dir="rtl" lang="he">
+
+  <header class="head">
+    <div class="eyebrow">רואד פרוטקט · הסבת דוחות אוטומטית להרץ</div>
+    <h1>תמונת מצב הסבות הדוחות של הרץ</h1>
+    <p class="asof">נכון ל-<b>18.10.2026, 11:54</b> · ספירת דוחות (לא סכומים) מתוך מערכת רואד פרוטקט</p>
+  </header>
+
+  <section class="tiles" aria-label="מספרים עיקריים">
+    <div class="tile">
+      <div class="v">22,658</div>
+      <div class="l">דוחות על רכבי הרץ במערכת</div>
+      <div class="s">מתוכם 2,623 דוחות משטרה</div>
+    </div>
+    <div class="tile">
+      <div class="v">5,538</div>
+      <div class="l">דוחות שדרשו הסבה מאיתנו</div>
+      <div class="s">השאר כבר על שם אחר, טופלו ע״י הרץ או נסגרו</div>
+    </div>
+    <div class="tile hero">
+      <div class="v">3,745</div>
+      <div class="l">הוסבו בהצלחה</div>
+      <div class="s">2,105 משטרה · 1,640 עירוני · 54 רשויות</div>
+    </div>
+    <div class="tile">
+      <div class="v">94%</div>
+      <div class="l">מההגשות התקבלו ברשות</div>
+      <div class="s">3,745 מתוך 3,993 הגשות</div>
+    </div>
+  </section>
+
+  <section class="panel" aria-labelledby="h-path">
+    <div class="panel-head">
+      <h2 id="h-path">המסלול של הדוחות</h2>
+      <p class="sub">מכל הדוחות על רכבי הרץ, עד הדוחות שהרשות כבר העבירה סופית על שם השוכר. אורך כל פס לפי מספר הדוחות.</p>
+    </div>
+    <div class="bars funnel" id="funnel"></div>
+    <div class="leftover">
+      <span>מתוך 5,538 שדרשו הסבה, עוד לא הוגשו:</span>
+      <span><b>1,319</b> ממתינים לנתונים</span>
+      <span><b>184</b> כבר רשומים על שם השוכר</span>
+      <span><b>42</b> בתור להגשה</span>
+    </div>
+  </section>
+
+  <section class="panel" aria-labelledby="h-type">
+    <div class="panel-head">
+      <h2 id="h-type">דוחות משטרה מול דוחות עירוניים</h2>
+      <p class="sub">כל הדוחות שדרשו הסבה מאיתנו, לפי מה שקרה איתם. רוב דוחות המשטרה כבר הוסבו. בעירוני, רוב מה שנשאר ממתין לנתונים מהרץ.</p>
+    </div>
+    <div id="stacks" class="bars" style="gap:18px"></div>
+    <div class="legend" id="outcome-legend"></div>
+  </section>
+
+  <section class="panel" aria-labelledby="h-pace">
+    <div class="panel-head">
+      <h2 id="h-pace">קצב ההסבות באוקטובר</h2>
+      <p class="sub">הסבות שהתקבלו ברשות, לפי יום ההגשה. ב-11–13.10 הוגשו רוב דוחות המשטרה, ומ-14.10 עברנו לדוחות העירוניים.</p>
+    </div>
+    <div class="cols-wrap">
+      <div class="legend">
+        <span class="key"><span class="sw" style="background:var(--police)"></span>משטרה</span>
+        <span class="key"><span class="sw" style="background:var(--city)"></span>עירוני</span>
+      </div>
+      <div class="cols-plot">
+        <div class="yaxis" id="yaxis" aria-hidden="true"></div>
+        <div>
+          <div class="cols" id="cols" role="img" aria-label="עמודות: הסבות מוצלחות לפי יום, 1 עד 18 באוקטובר"></div>
+          <div class="xaxis" id="xaxis" aria-hidden="true"></div>
+        </div>
+      </div>
+      <p class="note">השיא: <b>746 הסבות ב-13.10</b>. היום (18.10) מוצג עד 11:54. היום המערכת מטפלת בכל דוח חדש כמה פעמים ביום.</p>
+      <details>
+        <summary>הצגה כטבלה</summary>
+        <div class="table-scroll"><table id="pace-table"></table></div>
+      </details>
+    </div>
+  </section>
+
+  <section class="panel" aria-labelledby="h-missing">
+    <div class="panel-head">
+      <h2 id="h-missing">מה חסר כדי להגיש את השאר</h2>
+      <p class="sub">1,319 דוחות לא יכולים לצאת לרשות עד שיגיע מסמך או פרט חסר. ברגע שהנתון מגיע, הדוח מוגש.</p>
+    </div>
+    <div class="stack-block">
+      <div id="missing-stack"></div>
+      <div class="legend" id="missing-legend"></div>
+    </div>
+    <div class="bars" id="missing"></div>
+    <p class="note">323 דוחות שהמסמכים שלהם לא עברו בדיקה, לפי הסיבה. דוח אחד יכול להופיע ביותר מסיבה אחת.</p>
+    <div class="bars" id="docs"></div>
+  </section>
+
+  <div class="two">
+    <section class="panel" aria-labelledby="h-fail">
+      <div class="panel-head">
+        <h2 id="h-fail">הגשות שלא עברו</h2>
+        <p class="sub">248 מתוך 3,993 הגשות (6%). 210 נעצרו באתר הרשות, ו-38 נדחו ע״י הרשות אחרי בדיקה.</p>
+      </div>
+      <div class="bars" id="fail"></div>
+    </section>
+
+    <section class="panel" aria-labelledby="h-auth">
+      <div class="panel-head">
+        <h2 id="h-auth">הסבות עירוניות לפי רשות</h2>
+        <p class="sub">1,640 הסבות עירוניות ב-53 רשויות. בנוסף, 2,105 הסבות במשטרת ישראל.</p>
+      </div>
+      <div class="bars" id="auth"></div>
+    </section>
+  </div>
+
+  <section class="panel" aria-labelledby="h-notours">
+    <div class="panel-head">
+      <h2 id="h-notours">למה 17,120 דוחות לא דרשו הסבה מאיתנו</h2>
+      <p class="sub">רוב הדוחות על רכבי הרץ כבר רשומים ברשות על שם אחר, בעיקר בירושלים. אלה לא נכנסים לתהליך ההסבה.</p>
+    </div>
+    <div class="bars" id="notours"></div>
+  </section>
+
+  <section class="panel defs" aria-labelledby="h-defs">
+    <h2 id="h-defs">איך לקרוא את המספרים</h2>
+    <dl>
+      <dt>הוסבו בהצלחה</dt><dd>הגשנו בקשת הסבה והרשות קיבלה אותה. חלק כבר אושרו סופית, והשאר בטיפול הרשות.</dd>
+      <dt>אושרו סופית</dt><dd>הרשות העבירה את הדוח על שם השוכר.</dd>
+      <dt>ממתינים לנתונים</dt><dd>אי אפשר להגיש עד שמגיע מסמך או פרט חסר, למשל הסכם שכירות או צילום דרכון.</dd>
+      <dt>כבר על שם השוכר</dt><dd>הרשות כבר הנפיקה את הדוח על שם השוכר, ולכן אין צורך בהסבה.</dd>
+      <dt>הגשות שלא עברו</dt><dd>הבקשה נעצרה באתר הרשות או נדחתה ע״י הרשות. כל המספרים בעמוד הם מספרי דוחות ולא סכומים.</dd>
+    </dl>
+  </section>
+
+</div>
+<div id="tip" hidden></div>
+
+<script>
+(function () {
+  var fmt = function (n) { return n.toLocaleString('he-IL'); };
+  var pct = function (a, b) { return Math.round((a / b) * 100) + '%'; };
+
+  function el(tag, cls, text) {
+    var e = document.createElement(tag);
+    if (cls) e.className = cls;
+    if (text != null) e.textContent = text;
+    return e;
+  }
+
+  // Horizontal bar list. rows: {label, note, value, sub, color, tip, chip}
+  function barList(id, rows, max) {
+    var host = document.getElementById(id);
+    rows.forEach(function (r) {
+      var row = el('div', 'bar-row');
+      row.tabIndex = 0;
+      row.dataset.tip = r.tip || (r.label + '\n' + fmt(r.value));
+      var lab = el('div', 'bar-label', r.label);
+      if (r.chip) {
+        var c = el('span', 'chip ' + r.chip, r.chip === 'hz' ? 'נדרש מהרץ' : 'בטיפול שלנו');
+        lab.appendChild(c);
+      }
+      if (r.note) lab.appendChild(el('small', null, r.note));
+      var track = el('div', 'bar-track');
+      var fill = el('div', 'bar-fill');
+      fill.style.width = 'calc((100% - 6rem) * ' + (r.value / max) + ')';
+      if (r.color) fill.style.background = r.color;
+      var val = el('div', 'bar-val', fmt(r.value));
+      if (r.sub) val.appendChild(el('small', null, r.sub));
+      track.append(fill, val);
+      row.append(lab, track);
+      host.appendChild(row);
+    });
+  }
+
+  // 100% stacked bar. segs: {key, value, color, ink}
+  function stack(host, segs, total, labelMin) {
+    var bar = el('div', 'stack');
+    segs.forEach(function (s) {
+      if (!s.value) return;
+      var seg = el('div', 'seg');
+      seg.style.flex = s.value + ' 1 0';
+      seg.style.background = s.color;
+      if (s.ink) seg.style.color = s.ink;
+      seg.tabIndex = 0;
+      seg.dataset.tip = s.key + '\n' + fmt(s.value) + ' דוחות (' + pct(s.value, total) + ')';
+      if (s.value / total >= (labelMin || 0.09)) seg.textContent = pct(s.value, total);
+      bar.appendChild(seg);
+    });
+    host.appendChild(bar);
+  }
+
+  function legend(id, items) {
+    var host = document.getElementById(id);
+    items.forEach(function (it) {
+      var k = el('span', 'key');
+      var sw = el('span', 'sw'); sw.style.background = it.color;
+      k.appendChild(sw);
+      if (it.icon) k.appendChild(el('span', 'ico', it.icon));
+      k.appendChild(document.createTextNode(it.key));
+      host.appendChild(k);
+    });
+  }
+
+  // 1. Path of the fines
+  var TOTAL = 22658;
+  barList('funnel', [
+    { label: 'כל הדוחות על רכבי הרץ', value: 22658, sub: '100%' },
+    { label: 'דרשו הסבה מאיתנו', value: 5538, sub: pct(5538, TOTAL) + ' מכלל הדוחות' },
+    { label: 'הוגשו לרשויות', value: 3993, sub: pct(3993, 5538) + ' מאלה שדרשו' },
+    { label: 'הוסבו בהצלחה', value: 3745, sub: pct(3745, 3993) + ' מההגשות' },
+    { label: 'הרשות כבר אישרה סופית', note: 'השאר בטיפול הרשות', value: 588, sub: pct(588, 3745) + ' מההסבות' }
+  ], TOTAL);
+
+  // 2. Police vs city outcomes
+  var OUT = [
+    { id: 'ok', key: 'הוסבו בהצלחה', icon: '✓', color: 'var(--ok)' },
+    { id: 'queue', key: 'בתור להגשה', icon: '•', color: 'var(--queue)' },
+    { id: 'renter', key: 'כבר על שם השוכר', icon: '✓', color: 'var(--renter)' },
+    { id: 'wait', key: 'ממתינים לנתונים', icon: '…', color: 'var(--wait)', ink: 'var(--on-wait)' },
+    { id: 'bad', key: 'הגשה לא עברה', icon: '✕', color: 'var(--bad)' }
+  ];
+  var TYPES = [
+    { name: 'דוחות משטרה', total: 2577, v: { ok: 2105, queue: 1, renter: 53, wait: 295, bad: 123 } },
+    { name: 'דוחות עירוניים', total: 2961, v: { ok: 1640, queue: 41, renter: 131, wait: 1024, bad: 125 } }
+  ];
+  var stacksHost = document.getElementById('stacks');
+  TYPES.forEach(function (t) {
+    var block = el('div', 'stack-block');
+    var title = el('div', 'stack-title');
+    title.appendChild(el('h3', null, t.name + ' · ' + fmt(t.total)));
+    var s = el('span');
+    s.append('הוסבו ');
+    s.appendChild(el('b', null, fmt(t.v.ok)));
+    s.append(' (' + pct(t.v.ok, t.total) + ') · ממתינים ' + fmt(t.v.wait) + ' · לא עברו ' + fmt(t.v.bad));
+    title.appendChild(s);
+    block.appendChild(title);
+    stack(block, OUT.map(function (o) { return { key: o.key, value: t.v[o.id], color: o.color, ink: o.ink }; }), t.total);
+    stacksHost.appendChild(block);
+  });
+  legend('outcome-legend', OUT);
+
+  // 3. Daily pace (successful filings by filing day)
+  var DAYS = [
+    ['1.10', 1, 6], ['2.10', 0, 21], ['3.10', 0, 5], ['4.10', 0, 1], ['5.10', 0, 9], ['6.10', 0, 17],
+    ['7.10', 5, 30], ['8.10', 60, 10], ['9.10', 45, 2], ['10.10', 48, 0], ['11.10', 338, 9], ['12.10', 500, 16],
+    ['13.10', 723, 23], ['14.10', 292, 179], ['15.10', 2, 331], ['16.10', 20, 374], ['17.10', 0, 184], ['18.10', 28, 62]
+  ];
+  var YMAX = 800, TICKS = [0, 200, 400, 600, 800];
+  var cols = document.getElementById('cols'), yaxis = document.getElementById('yaxis'), xaxis = document.getElementById('xaxis');
+  TICKS.forEach(function (t) {
+    if (t > 0) {
+      var g = el('div', 'grid-line'); g.style.bottom = (t / YMAX * 100) + '%'; cols.appendChild(g);
+    }
+    var lab = el('span', null, fmt(t)); lab.style.bottom = (t / YMAX * 100) + '%'; yaxis.appendChild(lab);
+  });
+  DAYS.forEach(function (d) {
+    var tot = d[1] + d[2];
+    var col = el('div', 'col');
+    col.tabIndex = 0;
+    col.dataset.tip = d[0] + (d[0] === '18.10' ? ' (עד 11:54)' : '') + '\nמשטרה ' + fmt(d[1]) + ' · עירוני ' + fmt(d[2]) + '\nסה״כ ' + fmt(tot);
+    var parts = [[d[1], 'var(--police)'], [d[2], 'var(--city)']].filter(function (p) { return p[0] > 0; });
+    parts.forEach(function (p, i) {
+      var seg = el('div', 'c-seg' + (i === parts.length - 1 ? ' top' : ''));
+      seg.style.height = 'calc(' + (p[0] / YMAX * 100) + '% - 1px)';
+      seg.style.minHeight = '2px';
+      seg.style.background = p[1];
+      col.appendChild(seg);
+    });
+    if (tot >= 150) col.appendChild(el('div', 'tot', fmt(tot)));
+    cols.appendChild(col);
+    xaxis.appendChild(el('span', null, d[0]));
+  });
+  var tbl = document.getElementById('pace-table');
+  var thead = el('tr');
+  ['יום', 'משטרה', 'עירוני', 'סה״כ'].forEach(function (h) { thead.appendChild(el('th', null, h)); });
+  tbl.appendChild(thead);
+  DAYS.forEach(function (d) {
+    var tr = el('tr');
+    [d[0], fmt(d[1]), fmt(d[2]), fmt(d[1] + d[2])].forEach(function (c) { tr.appendChild(el('td', null, c)); });
+    tbl.appendChild(tr);
+  });
+
+  // 4. What is missing
+  var MISS = [
+    { key: 'קובץ הסכם השכירות ריק או לא זמין', value: 634, color: 'var(--wait)', ink: 'var(--on-wait)' },
+    { key: 'לא נמצא שוכר בזמן העבירה', value: 362, color: 'var(--city)' },
+    { key: 'מסמכים לא עברו בדיקה', value: 323, color: 'var(--queue)' }
+  ];
+  stack(document.getElementById('missing-stack'), MISS, 1319, 0.12);
+  legend('missing-legend', MISS);
+  barList('missing', [
+    { label: 'קובץ הסכם השכירות ריק או לא זמין', chip: 'hz', value: 634, sub: '175 משטרה', color: 'var(--wait)', tip: 'קובץ הסכם ריק או לא זמין\n634 דוחות · 175 משטרה, 459 עירוני' },
+    { label: 'לא נמצא שוכר בזמן העבירה', chip: 'hz', value: 362, sub: '24 משטרה', color: 'var(--city)', tip: 'לא נמצא שוכר\n362 דוחות · 24 משטרה, 338 עירוני' },
+    { label: 'מסמכים לא עברו בדיקה', note: 'פירוט למטה', value: 323, sub: '96 משטרה', color: 'var(--queue)', tip: 'מסמכים לא עברו בדיקה\n323 דוחות · 96 משטרה, 227 עירוני' }
+  ], 634);
+  barList('docs', [
+    { label: 'חסר צילום דרכון או תעודת זהות', note: 'בעיקר שוכרים תיירים', chip: 'hz', value: 134, sub: '15 משטרה', color: 'var(--queue)' },
+    { label: 'הסכם השכירות לא תואם לדוח', note: 'מספר הרכב או התאריכים בהסכם', chip: 'hz', value: 134, sub: '60 משטרה', color: 'var(--queue)' },
+    { label: 'תעודה מזהה לא תואמת לשוכר', chip: 'hz', value: 46, sub: '16 משטרה', color: 'var(--queue)' },
+    { label: 'שם השוכר ממתין לתרגום לעברית', chip: 'us', value: 42, sub: '7 משטרה', color: 'var(--queue)' },
+    { label: 'אחר', chip: 'us', value: 4, color: 'var(--queue)' }
+  ], 634);
+
+  // 5. Failed filings
+  barList('fail', [
+    { label: 'כתובת השוכר חסרה או לא תקינה', value: 126, sub: '93 משטרה', color: 'var(--bad)' },
+    { label: 'תקלה זמנית באתר הרשות', value: 42, sub: '4 משטרה', color: 'var(--bad)' },
+    { label: 'שוכר תייר בלי כתובת למשלוח', value: 40, sub: '0 משטרה', color: 'var(--bad)' },
+    { label: 'נדחו ע״י הרשות אחרי בדיקה', value: 38, sub: '26 משטרה', color: 'var(--bad)' },
+    { label: 'אחר', note: 'ערעור פתוח או דוח בגבייה', value: 2, color: 'var(--bad)' }
+  ], 126);
+
+  // 6. City authorities
+  var AUTH = [
+    ['ירושלים', 298, 155], ['נתניה', 168, 20], ['פתח תקווה', 153, 17], ['בת ים', 138, 1], ['חיפה', 137, 68],
+    ['ראשון לציון', 85, 57], ['נס ציונה', 55, 0], ['באר שבע', 53, 12], ['רמת ישי', 52, 0], ['גבעתיים', 48, 0]
+  ];
+  var authRows = AUTH.map(function (a) {
+    return { label: a[0], value: a[1], color: 'var(--city)', tip: a[0] + '\n' + fmt(a[1]) + ' הסבות · ' + fmt(a[2]) + ' כבר אושרו סופית' };
+  });
+  authRows.push({ label: '43 רשויות נוספות', value: 453, color: 'var(--queue)' });
+  barList('auth', authRows, 453);
+
+  // 7. Not ours to redirect
+  barList('notours', [
+    { label: 'רשומים כבר ברשות על שם אחר', note: '12,816 מהם בירושלים', value: 13354, sub: pct(13354, 17120), color: 'var(--queue)' },
+    { label: 'הרץ טיפלו בהסבה בעצמם', note: 'רובם לפני החיבור למערכת', value: 2250, sub: pct(2250, 17120), color: 'var(--queue)' },
+    { label: 'שולמו או נסגרו לפני שנדרשה הסבה', value: 1176, sub: pct(1176, 17120), color: 'var(--queue)' },
+    { label: 'אין חוזה בעלות של הרץ במועד העבירה', value: 328, sub: pct(328, 17120), color: 'var(--queue)' },
+    { label: 'אחר', value: 12, color: 'var(--queue)' }
+  ], 13354);
+
+  // Tooltip
+  var tip = document.getElementById('tip');
+  function show(target, x, y) {
+    var lines = target.dataset.tip.split('\n');
+    tip.textContent = '';
+    lines.forEach(function (l, i) {
+      if (i) tip.appendChild(document.createElement('br'));
+      tip.appendChild(i === 0 ? el('b', null, l) : document.createTextNode(l));
+    });
+    tip.hidden = false;
+    var w = tip.offsetWidth, h = tip.offsetHeight;
+    var left = Math.min(Math.max(8, x - w / 2), window.innerWidth - w - 8);
+    var top = y - h - 12 < 8 ? y + 16 : y - h - 12;
+    tip.style.left = left + 'px';
+    tip.style.top = top + 'px';
+  }
+  document.addEventListener('pointermove', function (e) {
+    var t = e.target.closest && e.target.closest('[data-tip]');
+    if (!t) { tip.hidden = true; return; }
+    show(t, e.clientX, e.clientY);
+  });
+  document.addEventListener('focusin', function (e) {
+    var t = e.target.closest && e.target.closest('[data-tip]');
+    if (!t) { tip.hidden = true; return; }
+    var r = t.getBoundingClientRect();
+    show(t, r.left + r.width / 2, r.top);
+  });
+  document.addEventListener('focusout', function () { tip.hidden = true; });
+  window.addEventListener('scroll', function () { tip.hidden = true; }, { passive: true });
+})();
+</script>
+</body>
+</html>
