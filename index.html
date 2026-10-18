@@ -90,6 +90,12 @@ p { margin: 0; }
 .tile .l { font-weight: 600; font-size: 15px; }
 .tile .s { color: var(--muted); font-size: 13px; }
 .tile.hero { background: var(--accent-soft); border-color: transparent; }
+.tile.base { border-color: var(--accent); }
+.pill {
+  display: inline-block; font-family: var(--font-display); font-size: 12px; font-weight: 600; line-height: 1.5;
+  padding: 0 7px; border-radius: 999px; background: var(--track); color: var(--ink-2); vertical-align: 1px;
+}
+.tile.hero .pill { background: var(--surface); color: var(--accent); }
 .tile.hero .v { color: var(--accent); }
 
 /* panels */
@@ -118,7 +124,7 @@ p { margin: 0; }
 
 /* funnel tweaks */
 .funnel .bar-fill { background: var(--accent); }
-.funnel .bar-row:nth-child(n+4) .bar-fill { background: var(--ok); }
+.funnel .bar-row:nth-child(n+3) .bar-fill { background: var(--ok); }
 .leftover {
   display: flex; flex-wrap: wrap; gap: 8px 18px; padding-top: 12px; border-top: 1px solid var(--line);
   color: var(--ink-2); font-size: 14px;
@@ -220,40 +226,40 @@ th { color: var(--ink-2); font-weight: 600; }
   <header class="head">
     <div class="eyebrow">רואד פרוטקט · הסבת דוחות אוטומטית להרץ</div>
     <h1>תמונת מצב הסבות הדוחות של הרץ</h1>
-    <p class="asof">נכון ל-<b>18.10.2026, 11:54</b> · ספירת דוחות (לא סכומים) מתוך מערכת רואד פרוטקט</p>
+    <p class="asof">נכון ל-<b>18.10.2026, 11:54</b> · 100% = <b>5,538</b> הדוחות שדרשו הסבה מאיתנו · ספירת דוחות, לא סכומים</p>
   </header>
 
   <section class="tiles" aria-label="מספרים עיקריים">
-    <div class="tile">
-      <div class="v">22,658</div>
-      <div class="l">דוחות על רכבי הרץ במערכת</div>
-      <div class="s">מתוכם 2,623 דוחות משטרה</div>
-    </div>
-    <div class="tile">
+    <div class="tile base">
       <div class="v">5,538</div>
-      <div class="l">דוחות שדרשו הסבה מאיתנו</div>
-      <div class="s">השאר כבר על שם אחר, טופלו ע״י הרץ או נסגרו</div>
+      <div class="l">דוחות בטיפול שלנו <span class="pill">100%</span></div>
+      <div class="s">2,577 משטרה · 2,961 עירוני</div>
     </div>
     <div class="tile hero">
       <div class="v">3,745</div>
-      <div class="l">הוסבו בהצלחה</div>
+      <div class="l">הוסבו בהצלחה <span class="pill">68%</span></div>
       <div class="s">2,105 משטרה · 1,640 עירוני · 54 רשויות</div>
     </div>
     <div class="tile">
-      <div class="v">94%</div>
-      <div class="l">מההגשות התקבלו ברשות</div>
-      <div class="s">3,745 מתוך 3,993 הגשות</div>
+      <div class="v">1,319</div>
+      <div class="l">ממתינים לנתונים <span class="pill">24%</span></div>
+      <div class="s">יוגשו ברגע שיגיע המסמך או הפרט החסר</div>
+    </div>
+    <div class="tile">
+      <div class="v">248</div>
+      <div class="l">הגשות שלא עברו <span class="pill">4%</span></div>
+      <div class="s">210 נעצרו באתר הרשות · 38 נדחו</div>
     </div>
   </section>
 
   <section class="panel" aria-labelledby="h-path">
     <div class="panel-head">
       <h2 id="h-path">המסלול של הדוחות</h2>
-      <p class="sub">מכל הדוחות על רכבי הרץ, עד הדוחות שהרשות כבר העבירה סופית על שם השוכר. אורך כל פס לפי מספר הדוחות.</p>
+      <p class="sub">מ-5,538 הדוחות שבטיפול שלנו, עד הדוחות שהרשות כבר העבירה סופית על שם השוכר. האחוזים מתוך 5,538.</p>
     </div>
     <div class="bars funnel" id="funnel"></div>
     <div class="leftover">
-      <span>מתוך 5,538 שדרשו הסבה, עוד לא הוגשו:</span>
+      <span>עוד לא הוגשו <b>1,545</b> (28%):</span>
       <span><b>1,319</b> ממתינים לנתונים</span>
       <span><b>184</b> כבר רשומים על שם השוכר</span>
       <span><b>42</b> בתור להגשה</span>
@@ -263,7 +269,7 @@ th { color: var(--ink-2); font-weight: 600; }
   <section class="panel" aria-labelledby="h-type">
     <div class="panel-head">
       <h2 id="h-type">דוחות משטרה מול דוחות עירוניים</h2>
-      <p class="sub">כל הדוחות שדרשו הסבה מאיתנו, לפי מה שקרה איתם. רוב דוחות המשטרה כבר הוסבו. בעירוני, רוב מה שנשאר ממתין לנתונים מהרץ.</p>
+      <p class="sub">כל 5,538 הדוחות לפי מה שקרה איתם, ואז משטרה ועירוני בנפרד (בשורות האלה האחוז הוא מתוך אותו סוג). רוב דוחות המשטרה כבר הוסבו. בעירוני, רוב מה שנשאר ממתין לנתונים מהרץ.</p>
     </div>
     <div id="stacks" class="bars" style="gap:18px"></div>
     <div class="legend" id="outcome-legend"></div>
@@ -297,7 +303,7 @@ th { color: var(--ink-2); font-weight: 600; }
   <section class="panel" aria-labelledby="h-missing">
     <div class="panel-head">
       <h2 id="h-missing">מה חסר כדי להגיש את השאר</h2>
-      <p class="sub">1,319 דוחות לא יכולים לצאת לרשות עד שיגיע מסמך או פרט חסר. ברגע שהנתון מגיע, הדוח מוגש.</p>
+      <p class="sub">1,319 דוחות (24% מ-5,538) לא יכולים לצאת לרשות עד שיגיע מסמך או פרט חסר. ברגע שהנתון מגיע, הדוח מוגש.</p>
     </div>
     <div class="stack-block">
       <div id="missing-stack"></div>
@@ -312,7 +318,7 @@ th { color: var(--ink-2); font-weight: 600; }
     <section class="panel" aria-labelledby="h-fail">
       <div class="panel-head">
         <h2 id="h-fail">הגשות שלא עברו</h2>
-        <p class="sub">248 מתוך 3,993 הגשות (6%). 210 נעצרו באתר הרשות, ו-38 נדחו ע״י הרשות אחרי בדיקה.</p>
+        <p class="sub">248 דוחות (4% מ-5,538). 210 נעצרו באתר הרשות, ו-38 נדחו ע״י הרשות אחרי בדיקה.</p>
       </div>
       <div class="bars" id="fail"></div>
     </section>
@@ -326,17 +332,10 @@ th { color: var(--ink-2); font-weight: 600; }
     </section>
   </div>
 
-  <section class="panel" aria-labelledby="h-notours">
-    <div class="panel-head">
-      <h2 id="h-notours">למה 17,120 דוחות לא דרשו הסבה מאיתנו</h2>
-      <p class="sub">רוב הדוחות על רכבי הרץ כבר רשומים ברשות על שם אחר, בעיקר בירושלים. אלה לא נכנסים לתהליך ההסבה.</p>
-    </div>
-    <div class="bars" id="notours"></div>
-  </section>
-
   <section class="panel defs" aria-labelledby="h-defs">
     <h2 id="h-defs">איך לקרוא את המספרים</h2>
     <dl>
+      <dt>100%</dt><dd>5,538 הדוחות על רכבי הרץ שדרשו הסבה מאיתנו. כל האחוזים בעמוד מחושבים מהמספר הזה, חוץ מהשורות של משטרה ועירוני בנפרד.</dd>
       <dt>הוסבו בהצלחה</dt><dd>הגשנו בקשת הסבה והרשות קיבלה אותה. חלק כבר אושרו סופית, והשאר בטיפול הרשות.</dd>
       <dt>אושרו סופית</dt><dd>הרשות העבירה את הדוח על שם השוכר.</dd>
       <dt>ממתינים לנתונים</dt><dd>אי אפשר להגיש עד שמגיע מסמך או פרט חסר, למשל הסכם שכירות או צילום דרכון.</dd>
@@ -414,15 +413,14 @@ th { color: var(--ink-2); font-weight: 600; }
     });
   }
 
-  // 1. Path of the fines
-  var TOTAL = 22658;
+  // 1. Path of the fines — 5,538 is 100%
+  var BASE = 5538;
   barList('funnel', [
-    { label: 'כל הדוחות על רכבי הרץ', value: 22658, sub: '100%' },
-    { label: 'דרשו הסבה מאיתנו', value: 5538, sub: pct(5538, TOTAL) + ' מכלל הדוחות' },
-    { label: 'הוגשו לרשויות', value: 3993, sub: pct(3993, 5538) + ' מאלה שדרשו' },
-    { label: 'הוסבו בהצלחה', value: 3745, sub: pct(3745, 3993) + ' מההגשות' },
-    { label: 'הרשות כבר אישרה סופית', note: 'השאר בטיפול הרשות', value: 588, sub: pct(588, 3745) + ' מההסבות' }
-  ], TOTAL);
+    { label: 'דוחות בטיפול שלנו', value: 5538, sub: '100%' },
+    { label: 'הוגשו לרשויות', value: 3993, sub: pct(3993, BASE) },
+    { label: 'הוסבו בהצלחה', value: 3745, sub: pct(3745, BASE) },
+    { label: 'הרשות כבר אישרה סופית', note: 'השאר בטיפול הרשות', value: 588, sub: pct(588, BASE) }
+  ], BASE);
 
   // 2. Police vs city outcomes
   var OUT = [
@@ -433,6 +431,7 @@ th { color: var(--ink-2); font-weight: 600; }
     { id: 'bad', key: 'הגשה לא עברה', icon: '✕', color: 'var(--bad)' }
   ];
   var TYPES = [
+    { name: 'כל הדוחות', total: 5538, v: { ok: 3745, queue: 42, renter: 184, wait: 1319, bad: 248 } },
     { name: 'דוחות משטרה', total: 2577, v: { ok: 2105, queue: 1, renter: 53, wait: 295, bad: 123 } },
     { name: 'דוחות עירוניים', total: 2961, v: { ok: 1640, queue: 41, renter: 131, wait: 1024, bad: 125 } }
   ];
@@ -440,7 +439,7 @@ th { color: var(--ink-2); font-weight: 600; }
   TYPES.forEach(function (t) {
     var block = el('div', 'stack-block');
     var title = el('div', 'stack-title');
-    title.appendChild(el('h3', null, t.name + ' · ' + fmt(t.total)));
+    title.appendChild(el('h3', null, t.name + ' · ' + fmt(t.total) + ' (' + pct(t.total, BASE) + ')'));
     var s = el('span');
     s.append('הוסבו ');
     s.appendChild(el('b', null, fmt(t.v.ok)));
@@ -533,15 +532,6 @@ th { color: var(--ink-2); font-weight: 600; }
   });
   authRows.push({ label: '43 רשויות נוספות', value: 453, color: 'var(--queue)' });
   barList('auth', authRows, 453);
-
-  // 7. Not ours to redirect
-  barList('notours', [
-    { label: 'רשומים כבר ברשות על שם אחר', note: '12,816 מהם בירושלים', value: 13354, sub: pct(13354, 17120), color: 'var(--queue)' },
-    { label: 'הרץ טיפלו בהסבה בעצמם', note: 'רובם לפני החיבור למערכת', value: 2250, sub: pct(2250, 17120), color: 'var(--queue)' },
-    { label: 'שולמו או נסגרו לפני שנדרשה הסבה', value: 1176, sub: pct(1176, 17120), color: 'var(--queue)' },
-    { label: 'אין חוזה בעלות של הרץ במועד העבירה', value: 328, sub: pct(328, 17120), color: 'var(--queue)' },
-    { label: 'אחר', value: 12, color: 'var(--queue)' }
-  ], 13354);
 
   // Tooltip
   var tip = document.getElementById('tip');
